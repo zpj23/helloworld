@@ -1,0 +1,31 @@
+/user_show?id=1
+/user/1
+
+
+
+/user_delete?id=1
+/user/1/delete
+
+
+/user_update?id=1
+/user/1/update
+
+
+user_list
+/users
+/user/users
+
+
+
+rest 风格不等于 rest 技术
+
+get post put delete
+
+
+/topic/23/delete
+
+
+
+
+
+

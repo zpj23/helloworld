@@ -1,0 +1,21 @@
+package com.sys.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.sys.entity.LogInfo;
+import com.sys.entity.UserInfo;
+
+
+public interface LogInfoDao {
+	void saveLog(LogInfo log);
+	
+	public List findList(UserInfo user,int page,int rows,Map<String,String> param);
+	
+	public int findCount(UserInfo user,Map<String,String> param);
+	
+	public void delLog(String id);
+	
+	public List findTopFive(UserInfo user, int page, int rows,
+			Map<String, String> param);
+}
