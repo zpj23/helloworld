@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import com.aop.AopMethod;
 import com.common.BaseService;
 import com.sys.dao.UserInfoDao;
 import com.sys.entity.UserInfo;
@@ -24,12 +23,12 @@ public class UserInfoServiceImpl extends BaseService<UserInfo> implements UserIn
 	private UserInfoDao jlUserInfoDao;
 	
 	
-	public UserInfo findLogin(UserInfo user) {		
+	public UserInfo findLogin(UserInfo user,boolean flag) {		
 		try {
 //			if(user.getLoginname().equalsIgnoreCase("admin")){
 //				return jlUserInfoDao.findById(1);
 //			}
-			List<Object[]> list = jlUserInfoDao.findLogin(user.getLoginname().trim(),user.getPassword());
+			List<Object[]> list = jlUserInfoDao.findLogin(user.getLoginname().trim(),user.getPassword(),flag);
 			if(list!=null&&list.size()>0){
 				int id=Integer.parseInt(list.get(0)[0].toString());
 				UserInfo ui=jlUserInfoDao.findById(id);
@@ -56,7 +55,7 @@ public class UserInfoServiceImpl extends BaseService<UserInfo> implements UserIn
 		return map;
 	}
 	
-	@AopMethod(remark="保存用户信息",type="新增/编辑")
+//	@MethodLog2(remark="保存用户信息",type="新增/编辑")
 	public int saveUser(UserInfo ui){
 		return jlUserInfoDao.saveUser(ui);
 	}
@@ -65,11 +64,11 @@ public class UserInfoServiceImpl extends BaseService<UserInfo> implements UserIn
 		return jlUserInfoDao.saveUser(user);
 	}
 	
-	@AopMethod(remark="修改用户密码",type="编辑")
+//	@MethodLog2(remark="修改用户密码",type="编辑")
 	public void saveUserPw(UserInfo user){
 		jlUserInfoDao.saveUserPw(user);
 	}
-	@AopMethod(remark="删除用户信息",type="删除")
+//	@MethodLog2(remark="删除用户信息",type="删除")
 	public void delUser(int id){
 		jlUserInfoDao.delUser(id);
 	}
@@ -82,7 +81,7 @@ public class UserInfoServiceImpl extends BaseService<UserInfo> implements UserIn
 	public List<Map> findUserByDepCode(String code){
 		return jlUserInfoDao.findUserByDepCode(code);
 	}
-	@AopMethod(remark="批量导入用户信息",type="新增")
+//	@MethodLog2(remark="批量导入用户信息",type="新增")
 	public void importExcel(List list,String table,UserInfo user ){
 		StringBuffer insertsql = new StringBuffer(1000);
 		StringBuffer sql=new StringBuffer(1000);

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.common.BaseController;
 import com.google.gson.Gson;
@@ -33,6 +34,13 @@ import com.sys.service.RoleInfoService;
 import com.sys.service.UserInfoService;
 import com.util.DateHelper;
 
+/**
+ * @Description: 登陆的control
+ * @ClassName: LoginController
+ * @author zpj 
+ * @date 2017-11-13 上午9:07:23
+ *
+ */
 @Controller
 @RequestMapping("/login")
 public class LoginController extends BaseController{
@@ -52,17 +60,32 @@ public class LoginController extends BaseController{
 	public LogInfoService jlLogInfoService;
 	
 	
+	@RequestMapping(value="/main", method=RequestMethod.GET)
+	public String toMain(){
+		return "home/main";
+	}
 	
+	@RequestMapping(value="/checkLogin", method=RequestMethod.GET)
+	public String checkLogin(){
+		String rst=login(null,null);
+		return rst;
+	}
 	@RequestMapping(value="/checkLogin", method=RequestMethod.POST)
-	public String checkLogin(@PathVariable String username,@PathVariable String pwd){
+	public String checkLogin( @RequestParam("username")String username,@RequestParam("pwd") String pwd){
+		String res=login(username,pwd);
+		return res;
+	}
+	public String login(String username,String pwd){
+		String retStr="";
 		boolean islogined=false;
+		
 		try {
 			UserInfo user = (UserInfo)request.getSession().getAttribute("jluserinfo");
 //			String loginname,pwd;
 			//首次登陆
 			 if(username==null&&user==null){
 				 //服务器重启后页面非正常情况访问
-				 return "redirect:/login";
+				 return "redirect:/login.jsp";
 			 }
 			 if(username==null){
 				if(user!=null){
@@ -72,19 +95,25 @@ public class LoginController extends BaseController{
 					 pwd =user.getPassword();
 				}else{
 					//没有登陆参数session中也没有缓存用户，那么就直接跳转登陆界面
-					 return "redirect:/login";
+					 return "redirect:/login.jsp";
 				}
 			}
 			UserInfo luser=new UserInfo();
 			luser.setLoginname(username);
 			luser.setPassword(pwd);
-			luser = jlUserInfoService.findLogin(luser);		     
+			if(islogined){
+				//如果登陆过 则用md5加密过的比较
+				luser = jlUserInfoService.findLogin(luser,true);		     
+			}else{
+				//否则用 传过来的密码加密再比较
+				luser = jlUserInfoService.findLogin(luser,false);
+			}
 			if(luser==null){			
 				//不存在该用户，或密码有误
 				request.setAttribute("msg", "用户名或密码错误");
 				request.setAttribute("loginerror","1");
 				request.setAttribute("loginname", username);
-				return "error";
+				return "/login";
 			}else{		
 				//记录本次的登陆时间和ip地址供下次使用
 				UserInfo us=jlUserInfoService.findById(luser.getId());
@@ -167,14 +196,15 @@ public class LoginController extends BaseController{
 					jlLogInfoService.logInfo(loginfo);
 				}
 				//排名查询
-				initRank(luser);
-				return "success";
+//				initRank(luser);
+				return "home/index";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return "redirect:/login.jsp";
 		}
 	}
+	
 	
 	public void  initRank(UserInfo luser){
 //		Map retMap=new HashMap();

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.common.BaseDao;
@@ -13,27 +12,27 @@ import com.sys.entity.UserInfo;
 import com.util.MD5;
 
 
-@Repository("jlUserInfoDao")
+@Repository
 public class UserInfoDaoImpl extends BaseDao<UserInfo> implements UserInfoDao{
 	
 	@Override
-	public List<Object[]> findLogin(String loginname,String pwd){		
+	public List<Object[]> findLogin(String loginname,String pwd,boolean flag){		
 		try {
-			pwd = MD5.md5s(loginname+"{"+pwd+"}");//加密 规则      用户名{密码}
-			String sql =" select a.id,a.username from jl_user_info a where a.loginname=? and  a.password = ?";
-			return this.findBySql(sql, loginname,pwd);
+				if(flag){
+					String sql =" select a.id,a.username from jl_user_info a where a.loginname=? and  a.password = ?";
+					return this.findBySql(sql, loginname,pwd);
+				}else{
+					pwd = MD5.md5s(loginname+"{"+pwd+"}");//加密 规则      用户名{密码}
+					String sql =" select a.id,a.username from jl_user_info a where a.loginname=? and  a.password = ?";
+					return this.findBySql(sql, loginname,pwd);
+				}
 			} catch (Exception e) {
 				return null;
 			}
 	}
 	@Override
 	public UserInfo findById(int id){
-		try {
-			return this.get(id);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return this.get(id);
 	}
 	
 	@Override

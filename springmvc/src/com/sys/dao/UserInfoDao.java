@@ -7,7 +7,7 @@ import com.sys.entity.UserInfo;
 
 
 public interface UserInfoDao {
-	public List<Object[]> findLogin(String loginname,String pwd);
+	public List<Object[]> findLogin(String loginname,String pwd,boolean flag);
 	public UserInfo findById(int id);
 	
 	public List findList(UserInfo user,int page,int rows,Map<String,String> param);

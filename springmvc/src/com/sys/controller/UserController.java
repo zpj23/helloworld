@@ -24,6 +24,21 @@ public class UserController extends BaseController {
 		users.put("", new TestUser());
 		
 	}
+	
+	
+	
+	/**
+	 * 跳转列表页面
+	 * @Title toList
+	 * @return
+	 * @author zpj
+	 * @time 2017-11-18 下午2:04:10
+	 */
+	@RequestMapping(value="/toList",method=RequestMethod.GET)
+	public String toList(){
+		return "user/list";
+	}
+	
 	@RequestMapping(value="/users",method=RequestMethod.GET)
 	public String list(Model model){
 		model.addAttribute("users", users);

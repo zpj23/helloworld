@@ -7,12 +7,11 @@
 <%-- <%@ taglib prefix="mf" uri="/MyFramework-tags"%> --%>
 <%-- 绝对路径 --%>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
-<script type="text/javascript" src="h-ui/lib/jquery/1.9.1/jquery.min.js"></script> 
-<link rel="stylesheet" type="text/css" href="h-ui/static/h-ui/css/H-ui.css" />
-<link rel="stylesheet" type="text/css" href="h-ui/lib/Hui-iconfont/1.0.8/iconfont.min.css" />
-<script type="text/javascript" src="h-ui/static/h-ui/js/H-ui.js"></script> 
-<link href="h-ui/static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-<link href="h-ui/static/h-ui.admin/css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${ctx}/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="${ctx}/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="${ctx}/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="${ctx}/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
 <style>
 <!--
 /* input {width:159px} */
