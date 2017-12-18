@@ -71,6 +71,7 @@
 		    <list>
 				<value>com.zpj.entity</value>
 				<value>com.sys.entity</value>
+				<value>com.base.entity</value>
 			</list>
 		</property>
     </bean>  
