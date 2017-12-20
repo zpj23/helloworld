@@ -7,10 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @Description: 用户表
+ * @ClassName: AppUserInfo
+ * @author zpj 
+ * @date 2017-12-19 上午11:23:27
+ *
+ */
 @Entity
 @Table(name="app_user_info")
 public class AppUserInfo implements java.io.Serializable {
 	private String id;//主键id
+	private String name;//名称
 	private int sex;//默认0男，1女
 	private String phone;//手机号码
 	private String password;//密码
@@ -138,6 +146,12 @@ public class AppUserInfo implements java.io.Serializable {
 	}
 	public void setIsV(String isV) {
 		this.isV = isV;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	
